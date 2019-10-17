@@ -1,0 +1,12 @@
+mvn clean
+mvn package
+cd /home/haohuynh/bin/tomcat9
+sudo systemctl start mariadb
+sudo ./bin/shutdown.sh
+sudo rm -rf ./webapps/SMS
+sudo rm -rf ./webapps/SMS.war
+sudo cp  /home/haohuynh/CPP/Fall-19/CS3560/CS3560/SMS/target/SMS.war ./webapps/SMS.war
+sudo ./bin/startup.sh
+cd /home/haohuynh/CPP/Fall-19/CS3560/CS3560/SMS
+
+ 

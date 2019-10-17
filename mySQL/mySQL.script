@@ -1,0 +1,68 @@
+systemctl start mariadb
+mysql -uroot -p
+toor
+drop database SMS;
+create database SMS;
+use SMS;
+show tables;
+
+Create Table Shipper(
+BroncoID Varchar(30) Primary Key,
+Name Varchar(30),
+PhoneNumber Varchar(20),
+EmailAddress Varchar(30),
+PassPhrase Varchar(130)
+);
+
+Create Table Shipment(
+TrackingNumber Int Primary Key,
+DateTimeReceive Varchar(30),
+DateTimeDelivery Varchar(30),
+DeliveryLocation Varchar(30),
+ContactName Varchar(30),
+ContactPhoneNumber Varchar(20),
+Cost Double,
+BroncoID Varchar(30),
+ShippingStatus Varchar(30),
+Foreign Key (BroncoID) References Shipper(BroncoID) On Delete Set Null
+);
+
+Create Table FoodOrder(
+OrderNumber Int Primary Key,
+OrderDateTime Varchar(30),
+TotalAmount Double,
+Tax Double
+);
+
+Create Table FoodOrderItem(
+FoodCode Int,
+OrderNumber Int,
+Description Varchar(30) Not Null,
+Quantity Int Check(Quantity > 0),
+SoldPrice Double Check(SoldPrice > 0),
+TrackingNumber Int,
+Primary Key (OrderNumber, FoodCode),
+Foreign Key (TrackingNumber) References Shipment(TrackingNumber) On Delete Set Null,
+Foreign Key (OrderNumber) References FoodOrder(OrderNumber)
+);
+
+
+
+Select * From Shipper;
+Select * From Shipment;
+Select * From FoodOrder;
+Select * From FoodOrderItem;
+
+Load Data Local Infile '/home/haohuynh/CPP/Fall-19/CS3560/CS3560/Shipper.txt' Into Table Shipper;
+Load Data Local Infile '/home/haohuynh/CPP/Fall-19/CS3560/CS3560/Shipment.txt' Into Table Shipment;
+Load Data Local Infile '/home/haohuynh/CPP/Fall-19/CS3560/CS3560/FoodOrder.txt' Into Table FoodOrder;
+Load Data Local Infile '/home/haohuynh/CPP/Fall-19/CS3560/CS3560/FoodOrderItem.txt' Into Table FoodOrderItem;
+
+
+
+
+
+
+
+
+

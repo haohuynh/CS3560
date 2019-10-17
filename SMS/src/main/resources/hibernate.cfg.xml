@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM 
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+
+	<session-factory>
+
+		<!-- JDBC Database connection settings -->
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://localhost:3306/SMS?serverTimezone=UTC</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">toor</property>
+		<mapping class="cpp.cs3560.model.Shipper" />
+		<mapping class="cpp.cs3560.model.Shipment" />
+		<mapping class="cpp.cs3560.model.FoodOrder" />
+		<mapping class="cpp.cs3560.model.FoodOrderItem" />
+		
+	</session-factory>
+
+</hibernate-configuration>
