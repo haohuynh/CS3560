@@ -1,6 +1,7 @@
 mvn clean
 mvn package
 cd /home/haohuynh/bin/tomcat9
+sudo systemctl stop mariadb
 sudo systemctl start mariadb
 sudo ./bin/shutdown.sh
 sudo rm -rf ./webapps/SMS

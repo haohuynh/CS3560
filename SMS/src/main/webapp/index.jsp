@@ -80,7 +80,7 @@
         <section class="impress_area p_120">
         	<div class="container">
         		<div class="impress_inner text-center">
-					<h2 style="color:green;">CPP SMS</h2>
+					<h2 style="color:green;">CS3560 SMS</h2>
 					<a class="main_btn2" href="/SMS/login">Customer Login</a>
 					<span style="padding-left:9em">
 						<a class="main_btn2" href="/SMS/login">Shipper Login</a>

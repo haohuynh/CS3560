@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.dom4j.rule.Mode;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -16,6 +15,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 
+import cpp.cs3560.model.Shipment;
 import cpp.cs3560.model.Shipper;
 
 /**
@@ -52,10 +52,16 @@ public class ModelController {
 	private static final String DELIMITERS = "[\\s\\t\\[\\]\\{\\}\\(\\)\\*\\/.,!@_#$:]+";
 
 	/**
-	 * A session factory for the class Faculty <-> table Faculty
+	 * A session factory for the class Shipper <-> table Shipper
 	 */
 	@SuppressWarnings("unused")
 	private static SessionFactory shipperFactory;
+
+	/**
+	 * A session factory for the class Shipment <-> table Shipment
+	 */
+	@SuppressWarnings("unused")
+	private static SessionFactory shipmentFactory;
 
 	/**
 	 * A singleton Hibernate Model Controller
@@ -68,10 +74,14 @@ public class ModelController {
 	@SuppressWarnings("deprecation")
 	private ModelController() {
 		/**
-		 * Initializing the Faculty factory for Hibernate framework
+		 * Initializing all the factories for Hibernate framework
 		 */
 		shipperFactory = new Configuration().configure(HIBERNATE_CONF_FILE).addPackage(HIBERNATE_PACKAGE)
 				.addAnnotatedClass(Shipper.class).buildSessionFactory();
+
+		shipmentFactory = new Configuration().configure(HIBERNATE_CONF_FILE).addPackage(HIBERNATE_PACKAGE)
+				.addAnnotatedClass(Shipment.class).buildSessionFactory();
+
 	}
 
 	/**
@@ -181,6 +191,41 @@ public class ModelController {
 
 		} catch (Exception ee) {
 			return new HashSet<Shipper>();
+
+		} finally {
+			session.close();
+		}
+		return results;
+	}
+
+	/**
+	 * To find a new shipment in the system
+	 */
+	@SuppressWarnings("unchecked")
+	public static Set<Shipment> listNewShipment() {
+		Session session = shipmentFactory.openSession();
+		Transaction tx = null;
+		Set<Shipment> results = new HashSet<Shipment>();
+
+		try {
+			tx = session.beginTransaction();
+			Criteria criteria = session.createCriteria(Shipment.class);
+
+			criteria.add(Restrictions.like("shippingStatus", WebController.NEW_SHIPMENT));
+
+			for (Iterator<Shipment> iterator = criteria.list().iterator(); iterator.hasNext();) {
+				results.add(((Shipment) iterator.next()));
+
+			}
+
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			return new HashSet<Shipment>();
+
+		} catch (Exception ee) {
+			return new HashSet<Shipment>();
 
 		} finally {
 			session.close();

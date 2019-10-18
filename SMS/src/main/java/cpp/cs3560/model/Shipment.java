@@ -40,7 +40,7 @@ public class Shipment {
 	private String broncoID;
 
 	@Column(name = "ShippingStatus")
-	private String ShippingStatus;
+	private String shippingStatus;
 
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TrackingNumber")
@@ -58,7 +58,7 @@ public class Shipment {
 		this.contactPhoneNumber = contactPhoneNumber;
 		this.cost = cost;
 		this.broncoID = broncoID;
-		ShippingStatus = shippingStatus;
+		shippingStatus = shippingStatus;
 		this.foodOrderItems = foodOrderItems;
 	}
 
@@ -183,14 +183,14 @@ public class Shipment {
 	 * @return the shippingStatus
 	 */
 	public String getShippingStatus() {
-		return ShippingStatus;
+		return shippingStatus;
 	}
 
 	/**
 	 * @param shippingStatus the shippingStatus to set
 	 */
 	public void setShippingStatus(String shippingStatus) {
-		ShippingStatus = shippingStatus;
+		shippingStatus = shippingStatus;
 	}
 
 	/**
