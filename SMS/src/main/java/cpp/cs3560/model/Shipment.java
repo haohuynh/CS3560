@@ -58,7 +58,7 @@ public class Shipment {
 		this.contactPhoneNumber = contactPhoneNumber;
 		this.cost = cost;
 		this.broncoID = broncoID;
-		shippingStatus = shippingStatus;
+		this.shippingStatus = shippingStatus;
 		this.foodOrderItems = foodOrderItems;
 	}
 
@@ -190,7 +190,7 @@ public class Shipment {
 	 * @param shippingStatus the shippingStatus to set
 	 */
 	public void setShippingStatus(String shippingStatus) {
-		shippingStatus = shippingStatus;
+		this.shippingStatus = shippingStatus;
 	}
 
 	/**

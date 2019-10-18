@@ -44,6 +44,11 @@ public class WebController {
 	public static final String NEW_SHIPMENT = "In-Transit";
 
 	/**
+	 * A valid shipper
+	 */
+	private Shipper shipper;
+
+	/**
 	 * Faculties want to reset their passwords
 	 * 
 	 */
@@ -99,25 +104,84 @@ public class WebController {
 	public ModelAndView processLogin(HttpServletRequest request, HttpServletResponse response) {
 		String username = request.getParameter("username");
 		String passphrase = request.getParameter("passphrase");
+		Set<Shipment> assignedShipments = new HashSet<Shipment>();
+		Set<Shipment> closingShipments = new HashSet<Shipment>();
+		Set<Shipment> completeShipments = new HashSet<Shipment>();
 
 		/*
-		 * Handle updated OfficeHours
+		 * Handle updated SMS
 		 */
 		if ((username == null) && (passphrase == null)) {
+			String newTrackingNumber = request.getParameter("assign");
+			String oldTrackingNumber = request.getParameter("edit");
 			ModelAndView postModels = new ModelAndView("edit");
-			postModels.addObject("message", "Test Post method");
+
+			if (newTrackingNumber != null) {
+				Shipment newShipment = ModelController.getInstance().getShipment(Integer.valueOf(newTrackingNumber));
+				if (newShipment != null) {
+					newShipment.setShippingStatus(ASSIGNED_SHIPMENT);
+					newShipment.setBroncoID(shipper.getBroncoID());
+					ModelController.getInstance().updateShipment(newShipment);
+					shipper = ModelController.getInstance().getShipper(shipper.getEmailAddress());
+				}
+
+			} else if (oldTrackingNumber != null) {
+
+				String receiveStamp = request.getParameter("receiveStamp");
+				String deliveryStamp = request.getParameter("deliveryStamp");
+
+				if (receiveStamp.equals("") || deliveryStamp.equals("")) {
+					postModels.addObject("message", "Please enter all the DateTimes!");
+				} else {
+					
+					if (deliveryStamp.compareTo(receiveStamp) < 0) {
+						postModels.addObject("message", "Delivery DateTime!");
+					} else {
+						
+						Shipment oldShipment = ModelController.getInstance()
+								.getShipment(Integer.valueOf(oldTrackingNumber));
+
+						if (oldShipment != null) {
+							oldShipment.setDateTimeReceive(receiveStamp);
+							oldShipment.setDateTimeDelivery(deliveryStamp);
+							oldShipment.setShippingStatus(CLOSING_SHIPMENT);
+							ModelController.getInstance().updateShipment(oldShipment);
+							shipper = ModelController.getInstance().getShipper(shipper.getEmailAddress());
+						}
+
+					}
+				}
+
+			}
+			
+			Set<Shipment> shipments = shipper.getShipments();
+
+			for (Shipment shipment : shipments) {
+				if (shipment.getShippingStatus().equals(COMPLETED_SHIPMENT)) {
+					completeShipments.add(shipment);
+
+				} else if (shipment.getShippingStatus().equals(CLOSING_SHIPMENT)) {
+					closingShipments.add(shipment);
+
+				} else { // Assigned Shipments
+					assignedShipments.add(shipment);
+				}
+			}
+
+			postModels.addObject("shipper", shipper);
+			postModels.addObject("completeShipments", completeShipments);
+			postModels.addObject("closingShipments", closingShipments);
+			postModels.addObject("assignedShipments", assignedShipments);
+			postModels.addObject("newShipments", ModelController.getInstance().listNewShipment());
 			return postModels;
 		}
 
 		/*
 		 * Username && passphrase verification
 		 */
-		Shipper shipper = ModelController.getInstance().getShipper(username, passphrase);
+		shipper = ModelController.getInstance().getShipper(username, passphrase);
 		if (shipper != null) {
 			ModelAndView editModels = new ModelAndView("edit");
-			Set<Shipment> assignedShipments = new HashSet<Shipment>();
-			Set<Shipment> closingShipments = new HashSet<Shipment>();
-			Set<Shipment> completeShipments = new HashSet<Shipment>();
 			Set<Shipment> shipments = shipper.getShipments();
 
 			for (Shipment shipment : shipments) {

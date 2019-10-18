@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
 	<link rel="icon" href="<c:url value="/resources/main/img/site.png"/>" type="image/png">
-	<title>Faculty Login</title>
+	<title>SMS Shipper Login</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 

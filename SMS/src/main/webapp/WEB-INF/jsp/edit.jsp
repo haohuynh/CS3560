@@ -105,7 +105,7 @@
 </head>
 
 <body>
-		
+		<p style="color:red;"><c:out value = "${message}"/><p>
 		<div class="top_menu row m0">
            		<div class="container">
 					<div class="float-left">
@@ -134,6 +134,7 @@
 								<c:if test = "${not empty assignedShipments}">
 							<table class="table">
 								<thead class="thead-light">
+									<th scope="col"></th>
 									<th scope="col">Tracking Number</th>
       								<th scope="col">DateTime Receive Item From Seller</th>
       								<th scope="col">DateTime Delivery Item To Customer</th>
@@ -145,23 +146,35 @@
 								<tbody>
          						<c:forEach items="${assignedShipments}"  var="shipment">
 			  						<tr bgcolor="#00DD00">
-			  			
-										<td>
-											<div class="custom-control custom-checkbox">
-                  								<input type="checkbox" class="custom-control-input" id="customCheck1">
-                  								<label class="custom-control-label" for="customCheck1"><c:out value = "${shipment.getTrackingNumber()}"/></label>
-              								</div>
-										</td>
-										<td><c:out value = "${shipment.getDateTimeReceive()}"/></td>
-										<td><c:out value = "${shipment.getDateTimeDelivery()}"/></td>
-										<td><c:out value = "${shipment.getDeliveryLocation()}"/></td>
-										<td><c:out value = "${shipment.getContactName()}"/></td>
-										<td><c:out value = "${shipment.getContactPhoneNumber()}"/></td>
-										<td><c:out value = "${shipment.getCost()}"/></td>
+			  							<form method = "POST" action = "/SMS/edit">
+											<td>	  				
+			  									<input type ="hidden" name="edit" value="${shipment.getTrackingNumber()}">
+												<input class="main_btn" type = "submit" value = "Submit"/>
+											</td>
+			  							
+			  								<td><c:out value = "${shipment.getTrackingNumber()}"/></td>
+			  								
+			  								<td>
+			  									<div class="m-t-5">
+			  										<input type="datetime-local" name="receiveStamp" value="${shipment.getDateTimeReceive()}">	
+			  									</div>		
+			  								</td>
+											<td>
+												<div class="m-t-5">
+			  										<input type="datetime-local" name="deliveryStamp" value="${shipment.getDateTimeDelivery()}">	
+			  									</div>		
+											</td>
+											
+											<td><c:out value = "${shipment.getDeliveryLocation()}"/></td>
+											<td><c:out value = "${shipment.getContactName()}"/></td>
+											<td><c:out value = "${shipment.getContactPhoneNumber()}"/></td>
+											<td><c:out value = "${shipment.getCost()}"/></td>
+										</form>
 									</tr>
 									
 										<c:if test = "${not empty shipment.getFoodOrderItems()}">
 											<tr>
+												<td></td>
 												<td><b><i>Food Code</i></b></td>
 												<td><b><i>Order Number</i></b></td>
 												<td><b><i>Description</i></b></td>
@@ -173,6 +186,7 @@
 												
 												<c:forEach items="${shipment.getFoodOrderItems()}"  var="item">
 				  									<tr>
+				  										<td></td>
 				  										<td><c:out value = "${item.getFoodCode()}"/></td>
 														<td><c:out value = "${item.getOrderNumber()}"/></td>
 														<td><c:out value = "${item.getDescription()}"/></td>
@@ -190,36 +204,52 @@
 								</c:forEach>
 								</tbody>
       						</table>
-		</c:if>
-		<div class="float-right">
-		<div class="limiter">
-				<div class="wrap-login100">
-				
-		
-						<form method = "POST" action = "/SMS/edit" class="login100-form validate-form">
-							<div class="container-login100-form-btn">
-								<input class="main_btn" type = "submit" value = "Close"/>
-								<span style="padding-left:5em">
-								<input class="main_btn" type = "submit" value = "Reject"/>
-								</span>
-							</div>
-							
-							<div style="padding-top: 0.5cm" class="container-login100-form-btn">
-								
-							</div>
-														
-						</form>
+						</c:if>
 					
+			<div class="wrapper-editor">
+				<div class="text-center">
+      				<a href="" class="btn btn-info btn-rounded btn-sm" data-toggle="modal" data-target="#modalAdd15">Notify Administrators
+          			</a>
+			   	</div>
+			  	<div class="row d-flex justify-content-center modalWrapper">
+			    	<div class="modal fade addNewInputs" id="modalAdd15" tabindex="-1" role="dialog" aria-labelledby="modalAdd15" aria-hidden="true">
+			      		<div class="modal-dialog" role="document">
+			        		<div class="modal-content">
+			          			<div class="modal-header text-center">
+			            			<h4 class="modal-title w-100 font-weight-bold text-primary ml-5">Problem Notification</h4>
+			            				<button type="button" class="close text-primary" data-dismiss="modal" aria-label="Close">
+			              					<span aria-hidden="true">&times;</span>
+			            				</button>
+			          			</div>
+			          			<div class="modal-body mx-3 modal-add-inputs">
+			            			<div class="md-form mb-5">
+			            				<label data-error="wrong" data-success="right" for="inputName">Subject</label>
+              							<input type="text" id="inputName1" class="form-control validate" >
+              						</div>
+									<div class="md-form mb-5">
+										<label data-error="wrong" data-success="right" for="inputPhoneNumber">Description</label>
+										<input type="text" id="inputPosition1" class="form-control validate">
+									</div>
+			          			</div>
+			          			<div class="modal-footer d-flex justify-content-center buttonAddFormWrapper">
+			            			<button class="btn btn-outline-primary btn-block buttonAdd" data-dismiss="modal">Send</button>
+			          			</div>
+							</div>
+						</div>
+					</div>
 				</div>
-		</div>
-		</div>
-                        </div>
+			</div>	
+					
+					
+					
+                   </div>
                         
                         
                         <div class="tab-pane fade" id="New">
 								<c:if test = "${not empty newShipments}">
 							<table class="table">
 								<thead class="thead-light">
+									<th scope="col"></th>
 									<th scope="col">Tracking Number</th>
       								<th scope="col">DateTime Receive Item From Seller</th>
       								<th scope="col">DateTime Delivery Item To Customer</th>
@@ -231,14 +261,16 @@
 								<tbody>
          						<c:forEach items="${newShipments}"  var="shipment">
 			  						<tr bgcolor="#00DD00">
-			  			
-										<td>
-											<div class="custom-control custom-checkbox">
-                  								<input type="checkbox" class="custom-control-input" id="customCheck1"} >
-                  								<label class="custom-control-label" for="customCheck1"><c:out value = "${shipment.getTrackingNumber()}"/></label>
-              								</div>
-										</td>
-										<td><c:out value = "${shipment.getDateTimeReceive()}"/></td>
+			  				
+										<td>	  				
+			  								<form method = "POST" action = "/SMS/edit">
+			  									<input type ="hidden" name="assign" value="${shipment.getTrackingNumber()}">
+												<input class="main_btn" type = "submit" value = "Get"/>
+											</form>
+			  							</td>
+			  							
+			  							<td><c:out value = "${shipment.getTrackingNumber()}"/></td>
+			  							<td><c:out value = "${shipment.getDateTimeReceive()}"/></td>
 										<td><c:out value = "${shipment.getDateTimeDelivery()}"/></td>
 										<td><c:out value = "${shipment.getDeliveryLocation()}"/></td>
 										<td><c:out value = "${shipment.getContactName()}"/></td>
@@ -248,6 +280,7 @@
 									
 										<c:if test = "${not empty shipment.getFoodOrderItems()}">
 											<tr>
+												<td></td>
 												<td><b><i>Food Code</i></b></td>
 												<td><b><i>Order Number</i></b></td>
 												<td><b><i>Description</i></b></td>
@@ -259,6 +292,7 @@
 												
 												<c:forEach items="${shipment.getFoodOrderItems()}"  var="item">
 				  									<tr>
+				  										<td></td>
 				  										<td><c:out value = "${item.getFoodCode()}"/></td>
 														<td><c:out value = "${item.getOrderNumber()}"/></td>
 														<td><c:out value = "${item.getDescription()}"/></td>
@@ -279,17 +313,10 @@
 		</c:if>
 		<div class="float-right">
 		 <div class="limiter">
-		
-				<div class="wrap-login100">
-				
-               	 <form method = "POST" action = "/SMS/edit" class="login100-form validate-form">
-						<div class="container-login100-form-btn">
-							<input class="login100-form-btn" type = "submit" value = "Process Shipment"/>
-						</div>
 					
-				</form>
+               
 				
-                  </div>
+                
          
          </div>
         </div>
@@ -420,7 +447,8 @@
                     </div>
                 </div>
             </div>
-       
+            
+                 
     <script src="<c:url value="/resources/login/vendor/jquery/jquery-3.2.1.min.js"/>"></script>
 	<script src="<c:url value="/resources/login/vendor/animsition/js/animsition.min.js"/>"></script>
 	<script src="<c:url value="/resources/login/vendor/bootstrap/js/popper.js"/>"></script>

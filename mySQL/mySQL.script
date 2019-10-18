@@ -53,10 +53,10 @@ Select * From Shipment;
 Select * From FoodOrder;
 Select * From FoodOrderItem;
 
-Load Data Local Infile '/home/haohuynh/CPP/Fall-19/CS3560/CS3560/Shipper.txt' Into Table Shipper;
-Load Data Local Infile '/home/haohuynh/CPP/Fall-19/CS3560/CS3560/Shipment.txt' Into Table Shipment;
-Load Data Local Infile '/home/haohuynh/CPP/Fall-19/CS3560/CS3560/FoodOrder.txt' Into Table FoodOrder;
-Load Data Local Infile '/home/haohuynh/CPP/Fall-19/CS3560/CS3560/FoodOrderItem.txt' Into Table FoodOrderItem;
+Load Data Local Infile '/home/haohuynh/CPP/Fall-19/CS3560/CS3560/mySQL/Shipper.txt' Into Table Shipper;
+Load Data Local Infile '/home/haohuynh/CPP/Fall-19/CS3560/CS3560/mySQL/Shipment.txt' Into Table Shipment;
+Load Data Local Infile '/home/haohuynh/CPP/Fall-19/CS3560/CS3560/mySQL/FoodOrder.txt' Into Table FoodOrder;
+Load Data Local Infile '/home/haohuynh/CPP/Fall-19/CS3560/CS3560/mySQL/FoodOrderItem.txt' Into Table FoodOrderItem;
 
 FMP18xGax0pZEHdOraLn
 

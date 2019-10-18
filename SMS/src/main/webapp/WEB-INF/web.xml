@@ -34,7 +34,7 @@
 		</listener-class>
 	</listener>
 	
-`	<error-page>
+	<error-page>
 	    <location>/errors</location>
 	</error-page>
 	

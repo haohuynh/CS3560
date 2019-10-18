@@ -101,6 +101,40 @@ public class ModelController {
 	 * passphrase
 	 */
 	@SuppressWarnings("unchecked")
+	public static Shipper getShipper(String emailAddress) {
+		Session session = shipperFactory.openSession();
+		Transaction tx = null;
+		Shipper shipper = null;
+
+		try {
+			tx = session.beginTransaction();
+			Criteria criteria = session.createCriteria(Shipper.class);
+
+			criteria.add(Restrictions.like("emailAddress", emailAddress));
+
+			for (Iterator<Shipper> iterator = criteria.list().iterator(); iterator.hasNext();) {
+				shipper = ((Shipper) iterator.next());
+				
+			}
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			return null;
+		} catch (Exception ee) {
+			return null;
+		} finally {
+			session.close();
+		}
+		return shipper;
+	}
+	
+	
+	/**
+	 * To find a shipper that have the Bronco ID and password like username and
+	 * passphrase
+	 */
+	@SuppressWarnings("unchecked")
 	public static Shipper getShipper(String username, String passphrase) {
 		Session session = shipperFactory.openSession();
 		Transaction tx = null;
@@ -122,9 +156,9 @@ public class ModelController {
 		} catch (HibernateException e) {
 			if (tx != null)
 				tx.rollback();
-			System.err.println(e.toString());
+			return null;
 		} catch (Exception ee) {
-			System.err.println(ee.toString());
+			return null;
 		} finally {
 			session.close();
 		}
@@ -163,6 +197,36 @@ public class ModelController {
 			session.close();
 		}
 		return shipper;
+	}
+
+	/**
+	 * To find a shipment
+	 */
+	public static void updateShipment(Shipment shipment) {
+		Session session = shipmentFactory.openSession();
+		Transaction tx = null;
+		
+
+		try {
+
+			tx = session.beginTransaction();
+		
+			if (shipment != null) {
+		
+				session.update(shipment);
+			}
+
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			
+		} catch (Exception ee) {
+			
+		} finally {
+			session.close();
+		}
+		
 	}
 
 	/**
@@ -231,6 +295,38 @@ public class ModelController {
 			session.close();
 		}
 		return results;
+	}
+
+	/**
+	 * To find a shipment with tracking number
+	 */
+	@SuppressWarnings("unchecked")
+	public static Shipment getShipment(Integer trackingNumber) {
+		Session session = shipmentFactory.openSession();
+		Transaction tx = null;
+		Shipment shipment = null;
+
+		try {
+			tx = session.beginTransaction();
+			Criteria criteria = session.createCriteria(Shipment.class);
+
+			criteria.add(Restrictions.eq("trackingNumber", trackingNumber));
+
+			shipment = ((Shipment) criteria.list().iterator().next());
+
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			return null;
+
+		} catch (Exception ee) {
+			return null;
+
+		} finally {
+			session.close();
+		}
+		return shipment;
 	}
 
 	/**
