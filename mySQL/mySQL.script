@@ -58,7 +58,10 @@ Load Data Local Infile '/home/haohuynh/CPP/Fall-19/CS3560/CS3560/mySQL/Shipment.
 Load Data Local Infile '/home/haohuynh/CPP/Fall-19/CS3560/CS3560/mySQL/FoodOrder.txt' Into Table FoodOrder;
 Load Data Local Infile '/home/haohuynh/CPP/Fall-19/CS3560/CS3560/mySQL/FoodOrderItem.txt' Into Table FoodOrderItem;
 
-FMP18xGax0pZEHdOraLn
+sudo mysqldump -uroot -ptoor --databases SMS > SMS.sql
+
+
+
 
 
 

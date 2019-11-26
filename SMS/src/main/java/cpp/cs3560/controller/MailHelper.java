@@ -23,7 +23,7 @@ public class MailHelper {
 	/**
 	 * User name for demo only
 	 */
-	private static final String USERNAME = "maibach.external@gmail.com";
+	private static final String USERNAME = "thithinguyen.ptit@gmail.com";
 
 	/**
 	 * Pass phrase for demo only
@@ -33,12 +33,12 @@ public class MailHelper {
 	/**
 	 * Email address for demo only
 	 */
-	private static final String FROM = "maibach.external@gmail.com";
+	private static final String FROM = "thithinguyen.ptit@gmail.com";
 
 	/**
 	 * Default CC_EMAIL_ADDRESS for management only
 	 */
-	private static final String CC = "hah.ptit@gmail.com";
+	private static final String CC = "hahuynh@cpp.edu, spoudel@cpp.edu, andyrosas@cpp.edu, droura@cpp.edu, mwmarra@cpp.edu";
 
 	/**
 	 * Office Hours email subject

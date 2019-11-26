@@ -115,6 +115,7 @@
 					<div class="float-right">
 						<h5><b>Phone#:</b><c:out value = " ${shipper.getPhoneNumber()}"/></h5>
 						<h5><b>Email:</b><c:out value = " ${shipper.getEmailAddress()}"/></h5>
+						<a href="/SMS/" class="btn btn-danger btn-rounded btn-sm">Logout</a>
 					</div>
            		</div>	
            	</div>	
